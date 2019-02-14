@@ -9,34 +9,26 @@ import java.util.concurrent.TimeUnit;
 
 public class MutexTest {
 
+    private static Mutex  mutex = new Mutex();
+
     public static void main(String[] args) throws InterruptedException {
-        Mutex  mutex = new Mutex();
         ExecutorService exec = Executors.newCachedThreadPool();
         exec.execute(new Task1(mutex));
         exec.execute(new Task2(mutex));
         exec.execute(new Task3(mutex));
+//        TimeUnit.MILLISECONDS.sleep(100);
+//        mutex.notifier();
+
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
-            Random random = new Random(3);
+
             @Override
             public void run() {
-                switch (random.nextInt()){
-                    case 0:{
-                        Task1.mutex.notifier();
-                    }
-                    case 1:{
-                        Task2.mutex.notifier();
-                    }
-                    case 2:{
-                        Task3.mutex.notifier();
-
-                    }
+                synchronized (mutex) {
+                    mutex.notify();
                 }
             }
-        } , 400 , 400);
-
-
-
+        } , 0 , 1000);
 
 //        TimeUnit.SECONDS.sleep(2);
 //        exec.shutdownNow();

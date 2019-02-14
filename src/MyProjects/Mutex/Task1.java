@@ -1,6 +1,8 @@
 package MyProjects.Mutex;
 
-public class Task1 implements Runnable {
+import BlockerTest.Task;
+
+public class Task1 extends Task implements Runnable {
      static Mutex mutex ;
 
     public Task1(Mutex mutex) {
@@ -9,18 +11,22 @@ public class Task1 implements Runnable {
 
     @Override
     public synchronized void run() {
-        try {
-            while (!Thread.interrupted()) {
-                System.out.println(getCharA());
-                wait();
+        synchronized (this.mutex){
+            while (true) {
+                System.out.println(Thread.currentThread() + " " +getChar());
+                try {
+                    mutex.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }catch (InterruptedException e){
-            System.out.println("interrupted");
         }
+
     }
 
-    public char getCharA(){
+    public char getChar(){
         return 'A';
     }
+
 
 }

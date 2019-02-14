@@ -1,28 +1,30 @@
 package MyProjects.Mutex;
 
-public class Task2 implements Runnable  {
+import BlockerTest.Task;
+
+public class Task2 extends Task implements Runnable  {
       static Mutex mutex ;
 
     public Task2(Mutex mutex) {
         this.mutex = mutex;
     }
+
     @Override
     public synchronized void run() {
-        try {
-            while (!Thread.interrupted()) {
-                System.out.println(getCharB());
-                wait();
+        synchronized (this.mutex){
+            while (true) {
+                System.out.println(Thread.currentThread() + " " +getChar());
+                try {
+                    mutex.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-        }catch (InterruptedException e){
-            System.out.println("interrupted");
-
         }
+
     }
 
-    public char getCharB(){
+    public char getChar(){
         return 'B';
-    }
-    synchronized void notifier(){
-        notify();
     }
 }
