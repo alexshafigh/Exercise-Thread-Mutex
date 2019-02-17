@@ -149,7 +149,7 @@ public class MutexTest {
                     synchronized (queue) {
                         if (flag){
                             try {
-                            System.out.println(queue.take() + " Read  By " + Thread.currentThread() + " ------------------------------------------");
+                            System.out.println(queue.take() + " Read  By " + Thread.currentThread() + " ------------------------------------------ ");
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -172,7 +172,7 @@ public class MutexTest {
                 synchronized (queue) {
                     if (flag){
                         try {
-                            System.out.println(queue.take() + " Read By " + Thread.currentThread() + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            System.out.println(queue.take() + " Read By " + Thread.currentThread() + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ");
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
