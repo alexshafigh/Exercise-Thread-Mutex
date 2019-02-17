@@ -1,15 +1,15 @@
 package MyProjects.Mutex;
 
-import java.util.Queue;
+//import MyProjects.Mutex.Producer.Prod1;
+
+import MyProjects.Mutex.Consumer.Consumer;
+import MyProjects.Mutex.Producer.Producer;
+
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.*;
 
 public class MutexTest {
-
-
-        private static Mutex mutex = new Mutex();
-
 
 
         private static LinkedBlockingQueue queue = new LinkedBlockingQueue();
@@ -72,12 +72,14 @@ public class MutexTest {
 
 
 
+        //second version
 
-//        new Timer().schedule(new TimerTask() {
-        new Thread(){
+
+        new Timer().schedule(new TimerTask() {
+//        new Thread(){
             @Override
             public void run() {
-                while (true) {
+//                while (true) {
                         synchronized (queue) {
                             if (!flag){
                                 try {
@@ -89,19 +91,18 @@ public class MutexTest {
                                 e.printStackTrace();
                             }
                         }
-                    }
+//                    }
                 }
     }
-        }.start();
-//        , 0 , 1*1000);
-
-
-
-//        new Timer().schedule(new TimerTask() {
-        new Thread(){
+        }, 0 , 1*1000);
+//
+//
+//
+        new Timer().schedule(new TimerTask() {
+//        new Thread(){
         @Override
             public void run() {
-                while (true) {
+//                while (true) {
                         synchronized (queue) {
                             if (!flag){
                                 try {
@@ -114,22 +115,41 @@ public class MutexTest {
                         }
                         }
                     }
-                }
+//                }
             }
-        }.start();
-//        , 0 , 1 * 1000);
+        }, 0 , 1000);
 
+        new Timer().schedule(new TimerTask() {
+            //        new Thread(){
+            @Override
+            public void run() {
+//                while (true) {
+                synchronized (queue) {
+                    if (!flag){
+                        try {
+                            System.out.println("**************************************************************************************** khubam By   " + Thread.currentThread());
+                            queue.put(" khubam ");
+                            flag = true;
+                            queue.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+//                }
+            }
+        }, 0 , 1000);
 
-//        new Timer().schedule(new TimerTask() {
-        new Thread(){
+//
+        new Timer().schedule(new TimerTask() {
+//        new Thread(){
         @Override
             public void run() {
-                while (true) {
+//                while (true) {
                     synchronized (queue) {
                         if (flag){
                             try {
-                            System.out.println(queue.take() + "By " + Thread.currentThread() + " ------------------------------------------");
-
+                            System.out.println(queue.take() + " Read  By " + Thread.currentThread() + " ------------------------------------------");
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -141,20 +161,41 @@ public class MutexTest {
                     }
                 }
             }
-            }
-        }.start();
-//        , 0 , 1*1000);
+//            }
+        } , 0 , 1*1000);
+//
+        new Timer().schedule(new TimerTask() {
+            //        new Thread(){
+            @Override
+            public void run() {
+//                while (true) {
+                synchronized (queue) {
+                    if (flag){
+                        try {
+                            System.out.println(queue.take() + " Read By " + Thread.currentThread() + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        finally {
+                            flag = false ;
+                            queue.notifyAll();
 
-//        new Timer().schedule(new TimerTask() {
-        new Thread(){
+                        }
+                    }
+                }
+            }
+//            }
+        } , 0 , 1*1000);
+
+        new Timer().schedule(new TimerTask() {
+//        new Thread(){
         @Override
             public void run() {
-                while (true) {
+//                while (true) {
                         synchronized (queue) {
                             if (flag){
                                 try {
-                                System.out.println(queue.take() + "By " + Thread.currentThread() + " ..........................................");
-
+                                System.out.println(queue.take() + " Read  By " + Thread.currentThread() + " ..........................................");
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -164,10 +205,9 @@ public class MutexTest {
                             }
                         }
                     }
-                }
+//                }
             }
-        }.start();
-//        , 0 , 1*1000);
+        } , 0 , 1*1000);
 
 
 
@@ -245,6 +285,32 @@ public class MutexTest {
 //            }
 //            }
 //        }.start();
+
+
+
+
+
+        ////Final
+
+//        ExecutorService exec = Executors.newCachedThreadPool();
+//
+//        exec.execute(new Producer(queue,flag ," 1 "));
+//        exec.execute(new Producer(queue,flag ," 2 "));
+////        exec.execute(new Producer(queue,flag ," 3 "));
+//
+//
+////        TimeUnit.MILLISECONDS.sleep(100);
+//        exec.execute(new Consumer(queue,flag));
+//        exec.execute(new Consumer(queue,flag));
+//        exec.execute(new Consumer(queue,flag));
+
+
+
+
+
+
+
+
 
 
 
