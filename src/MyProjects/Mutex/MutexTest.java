@@ -5,6 +5,7 @@ package MyProjects.Mutex;
 import MyProjects.Mutex.Consumer.Consumer;
 import MyProjects.Mutex.Producer.Producer;
 
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.*;
@@ -83,8 +84,8 @@ public class MutexTest {
                         synchronized (queue) {
                             if (!flag){
                                 try {
-                                System.out.println(" **************** Salam By  " + Thread.currentThread());
-                                queue.put(" Salam ");
+                                System.out.println(" **************** Salam By  " + Thread.currentThread() + queue.remainingCapacity());
+                                queue.put("Salam");
                                 flag = true;
                                 queue.wait();
                             } catch (InterruptedException e) {
@@ -106,8 +107,8 @@ public class MutexTest {
                         synchronized (queue) {
                             if (!flag){
                                 try {
-                            System.out.println("******************************************* Chetory By   " + Thread.currentThread());
-                            queue.put(" Chetory ");
+                            System.out.println("******************************************* Chetory By   " + Thread.currentThread() + queue.remainingCapacity());
+                            queue.put("Chetory");
                             flag = true;
                             queue.wait();
                         } catch (InterruptedException e) {
@@ -127,8 +128,9 @@ public class MutexTest {
                 synchronized (queue) {
                     if (!flag){
                         try {
-                            System.out.println("**************************************************************************************** khubam By   " + Thread.currentThread());
-                            queue.put(" khubam ");
+                            System.out.println("**************************************************************************************** khubam By   " + Thread.currentThread() + queue.remainingCapacity() );
+//                            queue.put(new Insider("khubam"));
+                            queue.put("khubam");
                             flag = true;
                             queue.wait();
                         } catch (InterruptedException e) {
@@ -138,7 +140,7 @@ public class MutexTest {
                 }
 //                }
             }
-        }, 0 , 1000);
+        }, 0 , 2000);
 
 //
         new Timer().schedule(new TimerTask() {
@@ -149,7 +151,9 @@ public class MutexTest {
                     synchronized (queue) {
                         if (flag){
                             try {
-                            System.out.println(queue.take() + " Read  By " + Thread.currentThread() + " ------------------------------------------ ");
+//                                Insider z = new Insider("");
+//                                z = (Insider) queue.take();
+                            System.out.println(queue.take() + " Read  By " + Thread.currentThread() + " ------------------------------------------ " + queue.remainingCapacity());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -162,7 +166,7 @@ public class MutexTest {
                 }
             }
 //            }
-        } , 0 , 1*1000);
+        } , 0 , 1*2000);
 //
         new Timer().schedule(new TimerTask() {
             //        new Thread(){
@@ -172,7 +176,9 @@ public class MutexTest {
                 synchronized (queue) {
                     if (flag){
                         try {
-                            System.out.println(queue.take() + " Read By " + Thread.currentThread() + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ");
+//                            Insider z = new Insider("");
+//                            z = (Insider) queue.take();
+                            System.out.println(queue.take() + " Read By " + Thread.currentThread() + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + queue.remainingCapacity());
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -185,7 +191,7 @@ public class MutexTest {
                 }
             }
 //            }
-        } , 0 , 1*1000);
+        } , 0 , 1*2000);
 
         new Timer().schedule(new TimerTask() {
 //        new Thread(){
@@ -195,7 +201,9 @@ public class MutexTest {
                         synchronized (queue) {
                             if (flag){
                                 try {
-                                System.out.println(queue.take() + " Read  By " + Thread.currentThread() + " ..........................................");
+//                                    Insider z = new Insider("");
+//                                    z = (Insider) queue.take();
+                                System.out.println(queue.take() + " Read  By " + Thread.currentThread() + " .........................................." + queue.remainingCapacity() );
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -207,11 +215,24 @@ public class MutexTest {
                     }
 //                }
             }
-        } , 0 , 1*1000);
+        } , 0 , 1*2000);
 
 
 
 
+//        while (true){
+//            for (Iterator it = queue.iterator(); it.hasNext(); ) {
+//                System.out.println(((Insider)it.next()).getString());
+//                Object q = it.next();
+//
+//            }
+//        }
+//
+//while (true)
+//        for (Object o : queue) {
+//            System.out.println(o.toString());
+//
+//        }
 
 
 
