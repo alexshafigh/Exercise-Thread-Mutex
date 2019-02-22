@@ -1,4 +1,4 @@
-package Meal_Project;
+package MyExerecise;
 
 public class Meal {
     private final int orderNum;

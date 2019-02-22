@@ -1,16 +1,21 @@
 package Exercise24;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Middle {
-    private volatile int buffer;
 
+    ExecutorService exec = Executors.newCachedThreadPool();
+    Consumer _consumer = new Consumer(this);
+    Producer _producer = new Producer(this);
 
-    public Middle(int buffer) {
-        this.buffer = buffer;
+    public Middle() {
+        exec.execute(_consumer);
+        exec.execute(_producer);
     }
 
-    @Override
-    public String toString() {
-        return buffer + " In The Middle ";
-
+    public static void main(String[] args) {
+        Middle middle = new Middle();
     }
+
 }

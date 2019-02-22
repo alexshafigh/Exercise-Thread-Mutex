@@ -1,4 +1,4 @@
-package Meal_Project;
+package Exercise26;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +14,7 @@ public class Chef implements Runnable {
         try {
             while(!Thread.interrupted()) {
                 synchronized(this) {
-                    while(restaurant.meal != null) // اگه غذا null نیس صبر کن تا ببرنش
+                    while( restaurant.meal != null  ) // اگه غذا null نیس صبر کن تا ببرنش
                         wait(); // ... for the meal to be taken
                 }
                 if(++count == 10) {
@@ -24,12 +24,13 @@ public class Chef implements Runnable {
                 System.out.println("Order up! ");
                 synchronized(restaurant.waitPerson) {
                     restaurant.meal = new Meal(count);
+                    restaurant.meal.status = 1;
                     restaurant.waitPerson.notify();
                 }
                 TimeUnit.MILLISECONDS.sleep(1000);
             }
         } catch(InterruptedException e) {
-            System.out.println("Chef interrupted");
+            System.out.println(" ShutDown Now Happened ");
         }
     }
 }
