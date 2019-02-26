@@ -14,9 +14,12 @@ public class Consumer implements Runnable {
     public synchronized void run() {
         try {
             while (!Thread.interrupted()) {
-                synchronized (middle.board) {
-                    int number = middle.board.getBoard();
-                    System.out.println(" Read By " + Thread.currentThread() + " " + number);
+                while (middle.obj == null) wait();
+
+                synchronized (middle){
+                    middle.obj = null;
+                    System.out.println("obj consumed by " + Thread.currentThread() );
+                    middle.notifyAll();
                 }
                 TimeUnit.SECONDS.sleep(1);
             }

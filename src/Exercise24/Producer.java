@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Producer implements Runnable {
+    obj obj;
     Middle middle;
 
     public Producer(Middle middle) {
@@ -14,12 +15,18 @@ public class Producer implements Runnable {
     public synchronized void run() {
         try {
             while (!Thread.interrupted()) {
-                synchronized (middle.board) {
-                    int z = new Random().nextInt();
-                    middle.board.setBoard(z);
-                    System.out.println(" Write " + z + " By " + Thread.currentThread());
+                while ( middle.obj != null ) {
+                    System.out.println(" Going 2 wait "+ Thread.currentThread());
+                    wait();
                 }
-                TimeUnit.SECONDS.sleep(1);
+
+                synchronized (middle) {
+                    middle.obj = new obj();
+                    System.out.println(" obj created by "+ Thread.currentThread());
+//                    middle.notifyAll();
+//                    middle.flag = true;
+                }
+//                TimeUnit.SECONDS.sleep(1);
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

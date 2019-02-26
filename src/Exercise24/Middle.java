@@ -8,19 +8,25 @@ import java.util.concurrent.TimeUnit;
 
 public class Middle {
 
-    obj board ;
-    Thread thread1 = new Thread(new Producer(this));
-    Thread thread2 = new Thread(new Consumer(this));
+    obj obj  ;
+    boolean flag = false;
+    boolean read ;
+    Thread thread11 = new Thread(new Producer(this));
+    Thread thread22 = new Thread(new Consumer(this));
+    Thread thread12 = new Thread(new Producer(this));
+    Thread thread23 = new Thread(new Consumer(this));
+
 
     public Middle() {
-        board = new obj();
-        board.setBoard(-9);
-        thread1.start();
-        thread2.start();
+        thread11.start();
+        thread12.start();
+        thread22.start();
+        thread23.start();
     }
 
     public static void main(String[] args) throws InterruptedException {
             Middle middle = new Middle();
+
     }
 
 }
